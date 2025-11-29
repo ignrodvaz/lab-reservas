@@ -49,14 +49,16 @@ def reservas_mas_largas(reservas: list[Reserva], n: int = 3) -> list[tuple[str, 
 def dias(reserva:Reserva) -> int:
     return (reserva.fecha_salida - reserva.fecha_entrada).days
 
-
-
-def cliente_mayor_facturacion(reservas: list[Reserva]) -> tuple[str, float]:
+def cliente_mayor_facturacion(reservas: list[Reserva], servicios: set[str] | None = None) -> tuple[str, float]:
     
-    indice_por_cliente = defaultdict(list)
+    facturacion_por_cliente = defaultdict(float)
     for reserva in reservas:
-        indice_por_cliente[reserva.dni].append(total_facturacion(reserva))
-    return indice_por_cliente
+        cumple_el_filtro = (servicios is None) or any(s in reserva.servicios_adicionales for s in servicios)
+        if cumple_el_filtro:
+            facturacion_por_cliente[reserva.dni] += total_facturacion(reserva)
+    if not facturacion_por_cliente:
+        return ("", 0.0)
+    return max(facturacion_por_cliente.items(), key=lambda item: item[1])
         
 def total_facturacion(reserva:Reserva) -> float:
     return reserva.precio_noche * dias(reserva)

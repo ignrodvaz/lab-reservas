@@ -17,9 +17,11 @@ if __name__ == "__main__":
     # print(total_facturado(datos, fecha_ini = date(2022, 2, 1), fecha_fin = date(2022, 2, 28)))
     
     #EJERCICIO 3
-    print("Test reservas más largas")
-    print(reservas_mas_largas(datos, n=3))
+    # print("Test reservas más largas")
+    # print(reservas_mas_largas(datos, n=3))
     
     #EJERCICIO 4
     print("Test cliente mayor facturacion")
-    print(cliente_mayor_facturacion(datos))
+    print(f"Sin filtrar por servicios: {cliente_mayor_facturacion(datos)}")
+    print(f"Con parking: {cliente_mayor_facturacion(datos, {"Parking"})}")
+    print(f"Con Parking o Spa: {cliente_mayor_facturacion(datos, {"Parking", "Spa"})}")
